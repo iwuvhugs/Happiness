@@ -31,7 +31,7 @@ public class FaceView extends View {
     private final static float FACE_RADIUS_TO_MOUTH_HEIGHT_RATIO = 3f;
     private final static float FACE_RADIUS_TO_MOUTH_OFFSET_RATIO = 3f;
 
-    public enum Eye {
+    private enum Eye {
         LEFT,
         RIGHT
     }
@@ -108,7 +108,7 @@ public class FaceView extends View {
         centerY = h / 2;
     }
 
-    class FaceDrawer {
+    private class FaceDrawer {
 
         private Paint paint;
 
