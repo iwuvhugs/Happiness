@@ -5,9 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -46,6 +47,26 @@ public class FaceView extends View {
 
     private void initializeFace() {
         drawer = new FaceDrawer();
+    }
+
+    public void setHappiness(float happiness) {
+        this.happiness = happiness;
+        postInvalidate();
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable parcelable = super.onSaveInstanceState();
+        FaceState faceState = new FaceState(parcelable);
+        faceState.state = happiness;
+        return faceState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        FaceState faceState = (FaceState) state;
+        super.onRestoreInstanceState(faceState.getSuperState());
+        setHappiness(faceState.state);
     }
 
     @Override
@@ -141,5 +162,37 @@ public class FaceView extends View {
                     mouthWidth / 2, mouthVerticalOffset);
             canvas.drawPath(path, paint);
         }
+    }
+
+    private static class FaceState extends BaseSavedState {
+
+        float state;
+
+        FaceState(Parcelable superState) {
+            super(superState);
+        }
+
+        private FaceState(Parcel source) {
+            super(source);
+            state = source.readFloat();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeFloat(state);
+        }
+
+        public static final Parcelable.Creator<FaceState> CREATOR = new Creator<FaceState>() {
+            @Override
+            public FaceState createFromParcel(Parcel source) {
+                return new FaceState(source);
+            }
+
+            @Override
+            public FaceState[] newArray(int size) {
+                return new FaceState[size];
+            }
+        };
     }
 }

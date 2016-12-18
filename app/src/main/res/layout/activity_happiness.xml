@@ -11,7 +11,7 @@
     tools:context="com.iwuvhugs.happiness.HappinessActivity">
 
     <com.iwuvhugs.happiness.FaceView
+        android:id="@+id/face_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
 </RelativeLayout>
